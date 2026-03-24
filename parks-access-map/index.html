@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Community Gardening and Parks Access Map</title>
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- ArcGIS JavaScript API stylesheet -->
+  <link
+    rel="stylesheet"
+    href="https://js.arcgis.com/4.29/esri/themes/light/main.css"
+  />
+
+  <!-- Custom stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- ArcGIS JavaScript API -->
+  <script src="https://js.arcgis.com/4.29/"></script>
+</head>
+<body>
+  <!-- =========================================================
+       TOP NAVIGATION
+       Sticky navigation for smoother page browsing
+       ========================================================= -->
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <div class="brand">
+        <div class="brand-title">Community Gardening and Parks Access Map</div>
+        <div class="brand-subtitle">ArcGIS JavaScript Web Mapping Application</div>
+      </div>
+
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="#heroSection">Overview</a>
+        <a href="#resultsSection">Results</a>
+        <a href="#mapSection">Map</a>
+        <a href="#infoSection">Guide</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- =========================================================
+       HERO SECTION
+       Main introduction and quick action area
+       ========================================================= -->
+  <section id="heroSection" class="hero-section">
+    <div class="container">
+      <div class="hero-card reveal">
+        <div class="hero-text">
+          <span class="hero-pill">Internet GIS Application</span>
+          <h1>Community Gardening and Parks Access Map</h1>
+          <p class="hero-lead">
+            This interactive ArcGIS JavaScript web mapping application helps users explore parks and green spaces in Singapore.
+            Users can search for locations, toggle map layers, and draw a rectangle or polygon to analyse green-space access,
+            park connector availability, national park presence, and the diversity of green-space categories within a selected area.
+          </p>
+
+          <div class="hero-actions">
+            <button id="jumpToMapBtn" class="btn btn-primary" type="button">
+              Go to Interactive Map
+            </button>
+            <button id="jumpToResultsBtn" class="btn btn-secondary" type="button">
+              View Results Panel
+            </button>
+          </div>
+
+          <div class="hero-chips">
+            <span class="chip">Search widget</span>
+            <span class="chip">Layer control</span>
+            <span class="chip">Sketch analysis</span>
+            <span class="chip">Dynamic results</span>
+          </div>
+        </div>
+
+        <div class="hero-side">
+          <div class="mini-panel">
+            <h3>What you can analyse</h3>
+            <ul>
+              <li>Park and open space presence</li>
+              <li>Park connector access</li>
+              <li>National park presence</li>
+              <li>Diversity of green-space categories</li>
+            </ul>
+          </div>
+
+          <div class="mini-panel">
+            <h3>How to start</h3>
+            <ol>
+              <li>Search for a location in Singapore</li>
+              <li>Draw a rectangle or polygon on the map</li>
+              <li>Read the results panel above the map</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       RESULTS SECTION
+       Analysis summary and dynamic query output
+       ========================================================= -->
+  <section id="resultsSection" class="section-block">
+    <div class="container">
+      <div class="section-card reveal">
+        <div class="section-header">
+          <div>
+            <p class="section-kicker">Spatial Query Output</p>
+            <h2>Query Results</h2>
+          </div>
+          <button id="clearBtn" class="btn btn-clear" type="button">Clear Selection</button>
+        </div>
+
+        <div class="stats-grid" id="statsGrid">
+          <div class="stat-card">
+            <span class="stat-label">Access Rating</span>
+            <span class="stat-value" id="statAccess">–</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Diversity Level</span>
+            <span class="stat-value" id="statDiversity">–</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Feature Count</span>
+            <span class="stat-value" id="statCount">–</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Dominant Category</span>
+            <span class="stat-value" id="statDominant">–</span>
+          </div>
+        </div>
+
+        <div id="resultsStatus" class="results-status info-status">
+          No area selected yet. Draw a rectangle or polygon on the map to start analysis.
+        </div>
+
+        <div id="results" class="results-panel">
+          <p><strong>No area selected yet.</strong></p>
+          <p>Draw a rectangle or polygon on the map to analyse green space access and diversity.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       MAP SECTION
+       Main interactive map area
+       ========================================================= -->
+  <section id="mapSection" class="section-block map-section">
+    <div class="container">
+      <div class="section-title-wrap reveal">
+        <p class="section-kicker">Interactive Exploration</p>
+        <h2>Interactive Map</h2>
+        <p class="section-description">
+          Use the search tool, layer controls, and sketch tools to investigate green-space access
+          and category diversity within your selected area.
+        </p>
+      </div>
+
+      <div class="tool-grid reveal">
+        <div class="tool-card">
+          <h3>Search</h3>
+          <p>Locate places quickly in Singapore before drawing your study area.</p>
+        </div>
+        <div class="tool-card">
+          <h3>Layer List</h3>
+          <p>Switch green-space layers on or off to compare map content.</p>
+        </div>
+        <div class="tool-card">
+          <h3>Sketch</h3>
+          <p>Draw a rectangle or polygon to run area-based green-space analysis.</p>
+        </div>
+        <div class="tool-card">
+          <h3>Legend & Basemap</h3>
+          <p>Interpret symbology and change basemap context during exploration.</p>
+        </div>
+      </div>
+
+      <div class="map-card reveal">
+        <div id="viewDiv"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       INFORMATION SECTION
+       Supporting interpretation and assignment explanation
+       ========================================================= -->
+  <section id="infoSection" class="section-block">
+    <div class="container">
+      <div class="info-grid">
+        <div class="info-card reveal">
+          <h2>What this map can be used for</h2>
+          <p>
+            This application helps users explore the spatial distribution of parks and green spaces in Singapore.
+            It can be used to identify whether a selected area has park and open space access, national park presence,
+            and park connector access, while also summarising the diversity of green-space categories in the selected area.
+          </p>
+        </div>
+
+        <div class="info-card reveal">
+          <h2>Data used</h2>
+          <p>
+            The application uses an ArcGIS Online web map containing four green-space-related layers:
+            Parks and Open Space, Park Connector, Park, and National Park. These layers are queried dynamically
+            when the user draws a selection area on the map.
+          </p>
+        </div>
+
+        <div class="info-card reveal">
+          <h2>How to use</h2>
+          <ol>
+            <li>Use the Search widget to locate a place in Singapore.</li>
+            <li>Use the Layer List widget to turn layers on or off.</li>
+            <li>Use the Sketch tool to draw a rectangle or polygon on the map.</li>
+            <li>Read the result section above the map to interpret green space access and diversity.</li>
+            <li>Click Clear Selection to remove the current analysis.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       FOOTER
+       ========================================================= -->
+  <footer class="page-footer">
+    <div class="container footer-inner">
+      <p><strong>Community Gardening and Parks Access Map</strong></p>
+      <p>Built with ArcGIS JavaScript API, HTML, CSS, and JavaScript.</p>
+    </div>
+  </footer>
+
+  <!-- Back to top button -->
+  <button id="backToTopBtn" class="back-to-top" type="button" aria-label="Back to top">
+    ↑
+  </button>
+
+  <!-- Custom JavaScript -->
+  <script src="script.js"></script>
+</body>
+</html>
